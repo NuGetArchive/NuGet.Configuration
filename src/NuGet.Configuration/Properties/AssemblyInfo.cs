@@ -18,7 +18,7 @@ using System.Runtime.CompilerServices;
 [assembly: NeutralResourcesLanguage("en-US")]
 [assembly: CLSCompliant(true)]
 
-[assembly: InternalsVisibleTo("NuGet.Configuration.Test")]
+[assembly: InternalsVisibleTo("NuGet.Configuration.Test", PublicKey = b03f5f7f11d50a3a")]
 
 // When built on the build server, the NuGet release version is specified by the build.
 // When built locally, the NuGet release version is the values specified in this file.

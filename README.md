@@ -1,5 +1,7 @@
 # NuGet.Configuration
 
+[![nuget-volatile MyGet Build Status](https://www.myget.org/BuildSource/Badge/nuget-volatile?identifier=945d1320-1da9-4a2c-9e99-4a67ffa823a3)](https://www.myget.org/)
+
 This repo contains NuGet's configuration implementation, which is used to consume `NuGet.config` files.
 
 ## Documentation and Further Learning

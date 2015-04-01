@@ -20,17 +20,22 @@ namespace NuGet.Configuration
 
         private static ConfigurationDefaults InitializeInstance()
         {
+#if !DNXCORE50
             var baseDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "NuGet");
+#else
+            var baseDirectory = Path.Combine(Environment.GetEnvironmentVariable("ProgramData"), "NuGet");
+#endif
             return new ConfigurationDefaults(baseDirectory, ConfigurationDefaultsFile);
         }
 
+        // TODO: Make this internal again
         /// <summary>
         /// An internal constructor MAINLY INTENDED FOR TESTING THE CLASS. But, the product code is only expected to use the static Instance property
         /// Only catches FileNotFoundException. Will throw all exceptions including other IOExceptions and XmlExceptions for invalid xml and so on
         /// </summary>
         /// <param name="directory">The directory that has the NuGetDefaults.Config</param>
         /// <param name="configFile">Name of the NuGetDefaults.Config</param>
-        internal ConfigurationDefaults(string directory, string configFile)
+        public ConfigurationDefaults(string directory, string configFile)
         {
             try
             {

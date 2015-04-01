@@ -68,7 +68,11 @@ namespace NuGet.Configuration
 
         private IEnumerable<PackageSource> LoadConfigurationDefaultSources()
         {
+#if !DNXCORE50
             var baseDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "NuGet");
+#else
+            var baseDirectory = Path.Combine(Environment.GetEnvironmentVariable("ProgramData"), "NuGet");
+#endif
             var settings = new Settings(baseDirectory, ConfigurationDefaultsFile);
 
             var sources = new List<PackageSource>();
@@ -134,8 +138,20 @@ namespace NuGet.Configuration
             if (settingsValue != null && settingsValue.Any())
             {
                 // get list of disabled packages
-                var disabledSources = (Settings.GetSettingValues(DisabledPackageSourcesSectionName) ?? Enumerable.Empty<SettingValue>())
-                    .ToDictionary(s => s.Key, StringComparer.CurrentCultureIgnoreCase);
+                var disabledSetting = Settings.GetSettingValues(DisabledPackageSourcesSectionName) ?? Enumerable.Empty<SettingValue>();
+
+                Dictionary<string, SettingValue> disabledSources = new Dictionary<string, SettingValue>();
+                foreach (var setting in disabledSetting)
+                {
+                    if (disabledSources.ContainsKey(setting.Key.ToLower()))
+                    {
+                        disabledSources[setting.Key.ToLower()] = setting;
+                    }
+                    else
+                    {
+                        disabledSources.Add(setting.Key.ToLower(), setting);
+                    }
+                }
                 loadedPackageSources = settingsValue.
                     Select(p =>
                     {

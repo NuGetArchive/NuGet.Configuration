@@ -51,7 +51,9 @@ namespace NuGet.Configuration
         {
             var safeSettings = new XmlReaderSettings
             {
+#if !DNXCORE50
                 XmlResolver = null,
+#endif
                 DtdProcessing = DtdProcessing.Prohibit,
                 IgnoreWhitespace = ignoreWhiteSpace
             };

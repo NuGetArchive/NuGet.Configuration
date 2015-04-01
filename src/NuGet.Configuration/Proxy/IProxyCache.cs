@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !DNXCORE50
+using System;
 using System.Net;
 
 namespace NuGet.Configuration
@@ -9,3 +10,4 @@ namespace NuGet.Configuration
         IWebProxy GetProxy(Uri uri);
     }
 }
+#endif

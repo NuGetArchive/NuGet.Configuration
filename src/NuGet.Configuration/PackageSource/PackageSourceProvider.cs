@@ -173,8 +173,6 @@ namespace NuGet.Configuration
                 }
             }
 
-            SetDefaultPackageSources(loadedPackageSources, machineWideSourcesCount);
-
             foreach (var source in loadedPackageSources)
             {
                 source.Description = GetDescription(source);

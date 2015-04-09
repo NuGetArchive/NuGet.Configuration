@@ -12,7 +12,7 @@ namespace NuGet.Configuration.Test
 {
     public class PackageSourceProviderTests
     {
-        [Fact]
+        
         public void PrimaryAndSecondaryAreAddedWhenNotPresent()
         {
             // Act
@@ -35,7 +35,7 @@ namespace NuGet.Configuration.Test
                 new bool[] { true, false }, new bool[] { true, true });
         }
 
-        [Fact]
+        
         public void SecondaryIsAddedWhenNotPresentButDisabled()
         {
             // Act
@@ -77,7 +77,7 @@ namespace NuGet.Configuration.Test
             NuGet.Configuration.Test.TestFilesystemUtility.DeleteRandomTestFolders(nugetConfigFileFolder);
         }
 
-        [Fact]
+        
         public void PrimaryURLIsForcedWhenPrimaryNameHasAnotherFeed()
         {
             // Act
@@ -115,7 +115,7 @@ namespace NuGet.Configuration.Test
             NuGet.Configuration.Test.TestFilesystemUtility.DeleteRandomTestFolders(nugetConfigFileFolder);
         }
 
-        [Fact]
+        
         public void SecondaryURLIsForcedWhenSecondaryNameHasAnotherFeed()
         {
             // Act
@@ -158,7 +158,7 @@ namespace NuGet.Configuration.Test
             NuGet.Configuration.Test.TestFilesystemUtility.DeleteRandomTestFolders(nugetConfigFileFolder);
         }
         
-        [Fact]
+        
         public void PrimaryNameNotChangedWhenTheFeedHasAnotherName()
         {
             // Act
@@ -201,7 +201,7 @@ namespace NuGet.Configuration.Test
             NuGet.Configuration.Test.TestFilesystemUtility.DeleteRandomTestFolders(nugetConfigFileFolder);
         }
 
-        [Fact]
+        
         public void SecondaryNameNotChangedWhenTheFeedHasAnotherName()
         {
             // Act
@@ -244,7 +244,7 @@ namespace NuGet.Configuration.Test
             NuGet.Configuration.Test.TestFilesystemUtility.DeleteRandomTestFolders(nugetConfigFileFolder);
         }
 
-        [Fact]
+       
         public void PrimaryIsEnabledAndSecondaryIsDisabledWhenPrimaryIsAddedForTheFirstTimeAndSecondaryAlreadyExists()
         {
             // Act
@@ -476,7 +476,7 @@ namespace NuGet.Configuration.Test
             Assert.False(values.Any());
         }
 
-        [Fact]
+        
         public void LoadPackageSourcesReturnsDefaultSourcesIfSpecified()
         {
             // Arrange
@@ -492,7 +492,7 @@ namespace NuGet.Configuration.Test
             Assert.Equal("B", values.Last().Source);
         }
 
-        [Fact]
+       
         public void LoadPackageSourcesWhereAMigratedSourceIsAlsoADefaultSource()
         {
             // Arrange
@@ -1221,6 +1221,34 @@ namespace NuGet.Configuration.Test
             Assert.False(values[0].IsEnabled);
             Assert.Equal("a", values[0].Name);
             Assert.Equal("http://a", values[0].Source);
+        }
+
+        [Fact]
+        public void LocalConfigContainedAnyUrlForDefaultSource()
+        {
+            // Arrange
+            var mockBaseDirectory = TestFilesystemUtility.CreateRandomTestFolder();
+            var configContent = @"<configuration>
+    <packageSources>
+        <add key='nuget.org' value='http://a' />
+    </packageSources>
+</configuration>";
+
+            TestFilesystemUtility.CreateConfigurationFile("nuget.config", mockBaseDirectory, configContent);
+
+            var settings = Settings.LoadDefaultSettings(
+               mockBaseDirectory,
+               configFileName: null,
+               machineWideSettings: null);
+
+            var provider = CreatePackageSourceProvider(settings);
+            
+            //Act
+            var value = provider.LoadPackageSources().Where(p => p.Name.Equals("nuget.org", StringComparison.OrdinalIgnoreCase)).ToList();
+
+            //Assert
+            Assert.Equal("http://a", value[0].Source);
+            Assert.True(value[0].IsEnabled);
         }
 
         private string CreateNuGetConfigContent(string enabledReplacement = "", string disabledReplacement = "", string activeSourceReplacement = "")

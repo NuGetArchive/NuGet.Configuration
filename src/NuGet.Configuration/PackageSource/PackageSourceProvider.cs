@@ -339,21 +339,6 @@ namespace NuGet.Configuration
                         // Case 4: Default package source is not present. Add it to the temp list. Later, the temp listed is inserted above the machine wide sources
                         defaultPackageSourcesToBeAdded.Add(packageSource);
                         packageSource.IsOfficial = true;
-
-                        //Since this is 'Primary was not present' case, we want to promote primary and demote secondary source
-                        if (checkSecondary)
-                        {
-                            foreach (PackageSource secondaryPacakgeSource in _providerDefaultSecondarySources)
-                            {
-                                int secondarySourceIndex = loadedPackageSources.FindIndex(p => p.Source.Equals(secondaryPacakgeSource.Source, StringComparison.OrdinalIgnoreCase));
-                                if ((secondarySourceIndex != -1) && (loadedPackageSources[secondarySourceIndex].IsEnabled))
-                                {
-                                    loadedPackageSources[secondarySourceIndex].IsEnabled = false;
-                                    packageSource.IsEnabled = true;
-                                }
-                            }
-                        }
-
                     }
 
                 }

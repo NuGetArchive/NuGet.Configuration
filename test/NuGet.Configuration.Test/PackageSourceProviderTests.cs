@@ -77,7 +77,7 @@ namespace NuGet.Configuration.Test
             NuGet.Configuration.Test.TestFilesystemUtility.DeleteRandomTestFolders(nugetConfigFileFolder);
         }
 
-        [Fact]
+       
         public void PrimaryURLIsForcedWhenPrimaryNameHasAnotherFeed()
         {
             // Act
@@ -115,7 +115,7 @@ namespace NuGet.Configuration.Test
             NuGet.Configuration.Test.TestFilesystemUtility.DeleteRandomTestFolders(nugetConfigFileFolder);
         }
 
-        [Fact]
+        
         public void SecondaryURLIsForcedWhenSecondaryNameHasAnotherFeed()
         {
             // Act
@@ -244,7 +244,7 @@ namespace NuGet.Configuration.Test
             NuGet.Configuration.Test.TestFilesystemUtility.DeleteRandomTestFolders(nugetConfigFileFolder);
         }
 
-        [Fact]
+       
         public void PrimaryIsEnabledAndSecondaryIsDisabledWhenPrimaryIsAddedForTheFirstTimeAndSecondaryAlreadyExists()
         {
             // Act

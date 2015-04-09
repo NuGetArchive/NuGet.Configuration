@@ -332,7 +332,7 @@ namespace NuGet.Configuration
                     if (nameMatchingIndex != -1)
                     {
                         // Case 3: Only feed name matches but source is different. Override it entirely
-                        loadedPackageSources[nameMatchingIndex] = packageSource;
+                        //DO NOTHING
                     }
                     else
                     {
